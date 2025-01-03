@@ -1,14 +1,25 @@
-import { link } from 'motion/react-client';
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../components/Providers/AuthProvider';
 
 const Navbar = () => {
+  const {user,logOut}=useContext(AuthContext)
+  const handlelogOut=()=>{
+    logOut()
+  }
     const links=<>
-    <li><a>Home</a></li>
-    <li><a>Contact Us</a></li>
-    <li><a>Dashboard</a></li>
-    <li><a>Our Menu</a></li>
-    <li><a>Our Shop</a></li>
-    <li><a>Sign Up</a></li>
+    <li><Link to='/'>Home</Link></li>
+    <li><Link to='/menu'>Menu</Link></li>
+    <li><Link to='/order'>Order</Link></li>
+    {
+      user? <>
+      <li><Link onClick={handlelogOut} >Logout</Link></li>
+      </>:<>
+      <li><Link to='/login'>Login</Link></li>
+      </>
+    }
+   
+
     
     
     </>
