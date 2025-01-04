@@ -1,16 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FiShoppingCart } from "react-icons/fi";
+
 import { AuthContext } from '../../components/Providers/AuthProvider';
+import useAxiosSecure from '../../hook/useAxiosSecure';
+import useCart from '../../hook/useCart';
 
 const Navbar = () => {
   const {user,logOut}=useContext(AuthContext)
+  const axiosSecure=useAxiosSecure()
+  console.log(user)
   const handlelogOut=()=>{
     logOut()
   }
+  const [cart]=useCart()
+  // useEffect(()=>{
+  //   axiosSecure.
+  //   get('/carts')
+  //   .then((res)=>
+  //       console.log(res.data)
+  //   )
+  //   .catch((error)=>{
+  //       console.log(error)
+  //   })
+  // },[])
     const links=<>
     <li><Link to='/'>Home</Link></li>
     <li><Link to='/menu'>Menu</Link></li>
     <li><Link to='/order'>Order</Link></li>
+  <Link to='/dashboard/cart'>
+  <li>
+    <button className="btn">
+    <FiShoppingCart></FiShoppingCart>
+  <div className="badge badge-secondary">{cart.length}</div>
+</button>
+    </li></Link>
     {
       user? <>
       <li><Link onClick={handlelogOut} >Logout</Link></li>
