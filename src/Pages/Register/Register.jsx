@@ -4,8 +4,11 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../components/Providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
+import useAxiosPublic from "../../hook/useAxiosPublic";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
-const SignUp = () => {
+const Register = () => {
+    const axiosPublic = useAxiosPublic()
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser, updateUserProfile } = useContext(AuthContext);
@@ -14,12 +17,18 @@ const SignUp = () => {
     const onSubmit = data => {
         console.log(data);
         createUser(data.email, data.password)
-            .then(result => {
-                const loggedUser = result.user;
-                console.log(loggedUser);
-                updateUserProfile(data.name, data.photoURL)
-                    .then(() => {
-                        console.log('user profile info updated')
+        .then(result => {
+            const loggedUser = result.user;
+            console.log(loggedUser);
+    
+            const userInfo = {
+                name: data.name,
+                email: data.email
+            };
+            axiosPublic.post('/users', userInfo)
+                .then(res => {
+                    if (res.data.insertedId) {
+                        console.log('data inserted successfully');
                         reset();
                         Swal.fire({
                             position: 'top-end',
@@ -29,10 +38,13 @@ const SignUp = () => {
                             timer: 1500
                         });
                         navigate('/');
-
-                    })
-                    .catch(error => console.log(error))
-            })
+                    }
+                })
+                .catch(error => console.log(error)); // Missing catch for axiosPublic.post
+            console.log('user profile info updated');
+        })
+        .catch(error => console.log(error)); // Correct placement
+    
     };
 
     return (
@@ -91,6 +103,7 @@ const SignUp = () => {
                                 <input className="btn btn-primary" type="submit" value="Sign Up" />
                             </div>
                         </form>
+                        <p><SocialLogin></SocialLogin></p>
                         <p><small>Already have an account <Link to="/login">Login</Link></small></p>
                     </div>
                 </div>
@@ -99,4 +112,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default Register;

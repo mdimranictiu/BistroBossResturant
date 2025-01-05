@@ -10,6 +10,7 @@ import Register from "../Pages/Register/Register";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import Dashboard from "../Layout/Dashboard/Dashboard";
 import Cart from "../Pages/Dashboard/Cart/Cart";
+import { GiPrivate } from "react-icons/gi";
 
  export const router = createBrowserRouter([
     {
@@ -44,7 +45,7 @@ import Cart from "../Pages/Dashboard/Cart/Cart";
     },
     {
       path:"/dashboard",
-      element:<Dashboard></Dashboard>,
+      element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
       children:[
         {
           path:'cart',

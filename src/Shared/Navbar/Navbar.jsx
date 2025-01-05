@@ -38,6 +38,7 @@ const Navbar = () => {
     {
       user? <>
       <li><Link onClick={handlelogOut} >Logout</Link></li>
+      <li>{user.email}</li>
       </>:<>
       <li><Link to='/login'>Login</Link></li>
       </>

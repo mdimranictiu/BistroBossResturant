@@ -4,6 +4,7 @@ import Lottie from "lottie-react";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import loginAnimation from '../../../src/assets/login1735833826.json'
 import { AuthContext } from '../../components/Providers/AuthProvider';
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 const Login = () => {
   const captchaRef=useRef(null);
   const [disabled,setdisabled]=useState(true)
@@ -82,6 +83,7 @@ const Login = () => {
             </form>
             <div>
               <p>New Here? <Link to='/register'>Register</Link></p>
+              <p><SocialLogin></SocialLogin></p>
             </div>
           </div>
         </div>
